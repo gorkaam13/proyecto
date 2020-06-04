@@ -1,9 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])){   
-    header('Location: '."login.html");
+if (!isset($_SESSION['user'])) {   
+    header('Location: '."logi.html");
 }
-
 
 $servername = "localhost";
 $username = "root";
@@ -17,14 +16,13 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$user = $_SESSION['user'];
 $nombre = $_GET['nombre'];
 $precio = $_GET['precio'];
+$imagen= $_GET['imagen'];
 
 
-$sql = "INSERT INTO compras (buyer, nombre, dinero)
-VALUES ('$user','$nombre', '$precio')";
-
+$sql = "INSERT INTO productos ( nombre, precio, img)
+VALUES ('$nombre','$precio', '$imagen')";
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
@@ -33,4 +31,4 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("Location: tienda.php");
+header("Location: editar.php");

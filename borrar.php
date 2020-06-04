@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['user'])) {   
-    header('Location: '."admin_users.php");
+    header('Location: '."login.html");
 }
 
 $servername = "localhost";
-$username = "proyecto";
+$username = "root";
 $password = "";
 $dbname = "proyecto";
 // Create connection
@@ -30,5 +30,5 @@ if ($conn->query($sql) === TRUE) {
 }
 
 $conn->close();
-header("Location: capital.html");
+header("Location: editar.php");
 ?>

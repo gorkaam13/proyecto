@@ -4,10 +4,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: '."login.html");
 }
 
-
-
-
-
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -19,11 +15,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 //
-$suma = 0;
+
+
+$sql = "SELECT * FROM compras ORDER BY id desc";
+$result = $conn->query($sql);
 ?>
-<htm>
-    <style>
-  body {
+<html>
+<style>
+    td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+body {
         background-color:lightblue;
     }
     td, th {
@@ -66,60 +70,40 @@ div {
   display: block;
   text-align: center;
 }
-        </style>
-    <body>
-    <div >
+
+</style>
+
+<body>
+<div >
     <h1>Camisas Gorka</h1>
     </div>
 <ul>
         <li><a  href="inicio.php">expositor</a></li>
         <li><a  href="login.html">login</a></li>
-        <li><a class="active" href="tienda.php">tienda</a></li>        
+        <li><a  href="tienda.php">tienda</a></li>        
         <li><a href="editar.php">Editor</a></li>
         <li><a href="registro.php">registro</a></li>
-        <li><a href="Regis_compras.php">compras</a></li>
+        <li><a class="active" href="Regis_compras.php">compras</a></li>
         
         <li style="float:right"><a href="logout.php">Log out</a></li>
       </ul>
-
-
+<table style="width:100%" >
+<tr>
+    <th>id</th>
+    <th>comprador</th>
+    <th>producto</th>
+    <th>cuanto</th>
+</tr>
+</body>
+</html>
 <?php
-$sql = "SELECT * FROM productos";
-$result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-       //echo "nombre: " . $row["nombre"]. "<br> precio: " . $row["precio"]. "<br> <img width='20%' src=img/" . $row["imagen"] . "> <br>";
-    ?>
-<html>
-  <body>
-  <form action="compras.php" method="GET">
-  <input type="text" name="nombre" value="<?php echo $row["nombre"]. "€" ?>"><br>
-  <input type="text" name="precio" value="<?php echo $row["precio"]. "€" ?>">
-  <br> <img width='20%' src="img/<?php echo $row["imagen"]   ?>" ><br>
-  <input type="submit" value="comprar">
-
-  </form>
-  
-  <hr/>
-    </body>
-</html>    
-    <?php
-      }
+        echo "<tr><td> " . $row["id"]. "</td><td>" . $row["buyer"]. "</td><td>" . $row["nombre"] . "</td><td>". $row["dinero"] . "</td></tr>";
+    }
 } else {
     echo "0 results";
 }
-
-
-?>
-
-
-
- 
-
-</body>
-</html>
-
-<?php
 $conn->close();
 ?>

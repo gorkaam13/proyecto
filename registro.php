@@ -3,16 +3,22 @@ session_start();
 if (!isset($_SESSION['user'])) {   
     header('Location: '."login.html");
 }
-?>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "proyecto";
+// Create connection
+$conn = new mysqli($servername, $username, $password,$dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+//
+?>
+<html>
 <style>
+
     body {
         background-color:lightblue;
     }
@@ -57,7 +63,8 @@ div {
   text-align: center;
 }
 
-    </style>
+
+</style>
 <body>
 <div >
     <h1>Camisas Gorka</h1>
@@ -66,18 +73,32 @@ div {
         <li><a  href="inicio.php">expositor</a></li>
         <li><a  href="login.html">login</a></li>
         <li><a  href="tienda.php">tienda</a></li>        
-        <li><a class="active" href="editar.php">Editor</a></li>
-        <li><a href="registro.php">registro</a></li>
+        <li><a href="editar.php">Editor</a></li>
+        <li><a class="active" href="registro.php">registro</a></li>
         <li><a href="Regis_compras.php">compras</a></li>
         
         <li style="float:right"><a href="logout.php">Log out</a></li>
       </ul>
 
-    <form action="borrar.php" method="GET">
-    name:<br>
-    <input type="text" name="user" value=""><br>   
-    <input type="submit" value="borrar">
-    
-    </form>
+
+   
+<table style="width:100%" >
+<tr>
+    <th>dia</th>
+    <th>cambio</th>
+</tr>
 </body>
 </html>
+<?php
+$sql = "SELECT * FROM cambios ORDER BY fecha desc";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "<tr><td> " . $row["fecha"]. "</td> <td> " . $row["ajuste"]. "</td></tr>";
+    }
+} else {
+    echo "0 results";
+}
+$conn->close();
+?>
